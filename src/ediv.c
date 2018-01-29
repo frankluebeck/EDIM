@@ -292,21 +292,13 @@ static Int InitLibrary (
 /* <name> returns the description of this module */
 static StructInitInfo module = {
 #ifdef EDIVSTATIC
- /* type        = */ MODULE_STATIC,
+    .type = MODULE_STATIC,
 #else
- /* type        = */ MODULE_DYNAMIC,
+    .type = MODULE_DYNAMIC,
 #endif
- /* name        = */ "ediv",
- /* revision_c  = */ 0,
- /* revision_h  = */ 0,
- /* version     = */ 0,
- /* crc         = */ 0,
- /* initKernel  = */ InitKernel,
- /* initLibrary = */ InitLibrary,
- /* checkInit   = */ 0,
- /* preSave     = */ 0,
- /* postSave    = */ 0,
- /* postRestore = */ 0
+    .name = "ediv",
+    .initKernel = InitKernel,
+    .initLibrary = InitLibrary,
 };
 
 #ifndef EDIVSTATIC
