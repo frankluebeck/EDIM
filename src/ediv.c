@@ -61,32 +61,60 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   unsigned long m, n, nn, r, rk, ch, chmax, p, pr, i, j, 
                 ii, i0, i1, x, c, pos, il;
   unsigned long *A1, *A2, *Tp, *res, *inv, *vv;
-  Obj A1obj, A2obj, Tpobj, invobj, resobj, probj, obj;
+  Obj A1obj, A2obj, Tpobj, resobj, invobj, probj, obj, row;
 
   /*  change args  */
+  if (! IS_PLIST_OR_POSOBJ(A) || LEN_PLIST(A) < 1 || 
+      ! IS_PLIST_OR_POSOBJ(ELM_PLIST(A, 1))) {
+     ErrorQuit("A must be an integer matrix",0L,0L); 
+  }
   m = (unsigned long) LEN_PLIST(A);
   n = (unsigned long) LEN_PLIST(ELM_PLIST(A, 1));
+  if (! IS_INTOBJ(pobj)) { 
+     ErrorQuit("p must be a small integer (not a %s)",(Int)TNAM_OBJ(pobj),0L); 
+  }
   p = (unsigned long) INT_INTOBJ(pobj);
+  if (! IS_INTOBJ(rkobj)) { 
+     ErrorQuit("rk must be a small integer (not a %s)",(Int)TNAM_OBJ(rkobj),0L);
+  }
   rk = (unsigned long) INT_INTOBJ(rkobj);
+  if (! IS_INTOBJ(robj)) { 
+     ErrorQuit("r must be a small integer (not a %s)",(Int)TNAM_OBJ(robj),0L);
+  }
   r = (unsigned long) INT_INTOBJ(robj);
+  if (! IS_INTOBJ(ilobj)) { 
+     ErrorQuit("il must be a small integer (not a %s)",(Int)TNAM_OBJ(ilobj),0L);
+  }
   il = (unsigned long) INT_INTOBJ(ilobj);
 
   /* pr = p^(r+1) */
-  for (i=1, pr=p; i<=r; pr *= p, i++);
+  probj = PowInt(pobj, SumInt(robj, INTOBJ_INT(1)));
+  if (! IS_INTOBJ(probj)) { 
+     ErrorQuit("p^(r+2) must be a small integer",0L,0L);
+  }
   /* max number of summands of size p^(r+1)*p before reduction is necessary
      because of integer overflow */
+  pr = (unsigned long) INT_INTOBJ(probj);
   chmax = ULONG_MAX/(pr) - 1;
+  if (chmax == 0) {
+     ErrorQuit("p^(r+2) must be a small int",0L,0L);
+  }
   A2obj = NewBag(T_DATOBJ, (n+1)*(m+1)*sizeof(unsigned long));
   A2 = (unsigned long *)ADDR_OBJ(A2obj);
   A2[0] = m;
   nn = n+1;
-  probj = INTOBJ_INT(pr);
   /* reduce matrix entries modulo p^(r+1) */
   for (i=1; i<=m; i++) {
+    row = ELM_PLIST(A, i);
+    if (! IS_PLIST(row) || LEN_PLIST(row) < n) {
+       ErrorQuit("A must be an integer matrix",0L,0L);
+    }
     for (j=1; j<=n; j++) {
       obj = ELM_PLIST(ELM_PLIST(A, i), j);
-      if (LT_INTOBJS(resobj, probj, obj) || 
-	  LT_INTOBJS(resobj, obj, INTOBJ_INT(0))){
+      if (! IS_INT(obj)) {
+         ErrorQuit("matrix entry must be integer",0L,0L);
+      }
+      if (LtInt(probj, obj) || LtInt(obj, INTOBJ_INT(0))) {
 	obj = ModInt(obj, probj);
         /* this could have changed because of a garbage collection */
 	A2 = (unsigned long *)ADDR_OBJ(A2obj);
@@ -170,19 +198,21 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
     r--;
   }
   if (A1[0]==rk) { 
+    RetypeBag(resobj, T_PLIST_CYC);
     i0 = res[0];
     for (i=1; i<=i0; i++) {
       SET_ELM_PLIST(resobj, i, INTOBJ_INT(res[i]));
     }
-    RetypeBag(resobj, T_PLIST_CYC);
   }
   else {
-    if (il>0) {fprintf(stderr, "#exponent too small or rank too big. \n"); fflush(stderr);}
+    if (il>0) {
+      fprintf(stderr, "#exponent too small or rank too big. \n"); 
+      fflush(stderr);
+    }
     resobj = Fail;
   }
   return resobj;
 }
-
 
 /*F * * * * * * * * * * * * * initialize package * * * * * * * * * * * * * * *
 */
