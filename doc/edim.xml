@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE Book SYSTEM "gapdoc.dtd">
+
+<!--
+
+  manual.xml          EDIM mini-package documentation        Frank Lübeck
+
+  Copyright (C) 2000, Lehrstuhl D für Mathematik, RWTH-Aachen
+
+-->
+
+<Book Name="edim">
+
+<TitlePage>
+    <Title><Package>EDIM</Package></Title>
+    <Subtitle>Elementary Divisors and Integer Matrices</Subtitle>
+    <Version>
+      <#Include SYSTEM "../VERSION">
+    </Version>
+    <Author>Frank Lübeck
+<Address>
+Lehrstuhl D für Mathematik
+RWTH Aachen
+Templergraben 64
+52062 Aachen
+Germany
+</Address>
+    <Email>Frank.Luebeck@Math.RWTH-Aachen.De</Email>
+    <Homepage>http://www.math.rwth-aachen.de/&tilde;Frank.Luebeck</Homepage>
+    </Author>
+    <Date>June 2013</Date>
+    <Copyright> <Index>License</Index>
+              &copyright; 2000-2013 by Frank Lübeck <P/>
+              <Package>EDIM</Package>  
+              is free software; you can redistribute it
+              and/or modify it under the terms of the <URL Text="GNU
+              General Public License">http://www.fsf.org/licenses/gpl.html</URL>              as published by the Free Software Foundation;
+              either version 2 of the License, or (at your option) any
+              later version.
+    </Copyright>
+
+</TitlePage>
+
+<!--  TableOfContents  . . . . . .  generate a table of contents   -->
+<TableOfContents/>
+
+<!--  The only chapter of the book  --> 
+<Body>
+<#Include SYSTEM "main.xml">
+</Body>
+
+<!--  We want a bibliography  -->
+<Bibliography Databases="edim"/>
+
+<!--  And finally an index as well   -->
+<TheIndex/>
+
+</Book>
+

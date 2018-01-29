@@ -1,0 +1,41 @@
+1.3.2 - setting LANG and LC_ALL environment variables to "C" in configure
+        script to avoid some locale related problems under OS X
+
+1.3.1 - adjust installation instructions to GAP >= 4.5.3.
+      - avoid warning in AvailabilityTest (use DisplayPackageLoadingLog
+        to see the possible warning)
+
+1.3   This is for GAP >= 4.5  
+      - now using proper Info statements (all messages sent to stderr)
+      - all files and doc source are now UTF-8
+      - adjusted manual examples
+      - removed all pre-4.4 commands
+      - doc adjusted to newer GAPDoc version
+      - adjusted to build mechanism of GAP 4.5, supporting CONFIGNAME
+      - improved Makefile and scripts
+      - added copy of GPL
+
+1.2.3 - catch a case or invalid input.
+      - slight change of kernel module to allow several packages with kernel
+        modules with a statically linked GAP.
+
+1.2.2 - change init.g/read.g to depend on GAP 4.4.
+      - added a reference.
+      - documented RationalSolutionIntMat and explained use for
+        rank computation or singularity proof.
+
+1.2.1 - added a src/compstat.c file for easier install with other kernel
+        changes.
+      - corrected the tth and MathML versions of the manuals: the <var>
+        elements in formulae and use of unicode character entities.
+      - removed unnecessary files.
+
+1.2  small adjustments for GAP 4.4, added a PackageInfo.g file
+
+1.1  - transformed the documentation to GAPDoc format
+     - some small changes in code
+     - possibility for producing static `gap' with EDIM kernel function
+
+1.0b changed Makefile to use the `gac' script for compilation
+
+1.0  initial release

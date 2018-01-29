@@ -1,0 +1,745 @@
+<!-- 
+
+  main.xml            EDIM package documentation        Frank Lübeck
+
+         Copyright (C) 1999-2004, Lehrstuhl D für Mathematik, RWTH-Aachen
+
+This is the main chapter of the documentation.
+
+-->
+
+<Chapter Label="Chap-EDIM">
+<Heading>The <Package>EDIM</Package>-Package</Heading>
+<Index><Package>EDIM</Package></Index>
+
+<Emph>(Elementary   Divisors   and   Integer    Matrices,  by    Frank
+Lübeck)</Emph><P/>
+
+This  chapter describes  the  functions defined  in  the &GAP;4  package
+<Package>EDIM</Package>.  The main  functions implement  variants of  an
+algorithm for computing for a given prime <M>p</M> the <M>p</M>-parts of
+the  elementary divisors  of  an integer  matrix.  These algorithms  use
+a  <M>p</M>-adic  method  and  are  described by  the  author  in  <Cite
+Key="L98"/> (see <Ref Func="ElementaryDivisorsPPartRk"/>).<P/>
+
+These functions were already applied to  integer matrices of dimension
+greater  than  <M>11000</M> (which had  many   non-trivial  elementary
+divisors which were products of small primes).<P/>
+
+Furthermore  there are  functions  for finding  the biggest elementary
+divisor of an invertible integer matrix and  the inverse of a rational
+invertible matrix  (see <Ref Func="ExponentSquareIntMatFullRank"/> and
+<Ref  Func="InverseRatMat"/>).   These   algorithms use  <M>p</M>-adic
+approximations, explained in <Ref Sect="Sect-InvRatMatAlg"/>.<P/>
+
+Finally we distribute  implementations  of some other   algorithms for
+finding elementary  divisors or normal  forms  of integer  matrices: A
+<M>p</M>-modular  algorithm  by    Havas  and   Sterling from    <Cite
+Key="HS79"/>  (see <Ref Func="ElementaryDivisorsPPartHavasSterling"/>)
+and LLL-based  algorithms for extended   greatest  common divisors  of
+integers (see <Ref Func="GcdexIntLLL"/>) and  for Hermite normal forms
+of integer matrices with  (very nice) transforming matrices  (see <Ref
+Func="HermiteIntMatLLL"/>).<P/>
+
+By   default  the   <Package>EDIM</Package>   is  automatically   loaded
+by   &GAP;   when   it   is  installed.   If   the   automatic   loading
+is   disabled  in   your  installation   you  must   load  the   package
+with   <C>RequirePackage("edim");</C>   before  its   functions   become
+available.<P/>
+
+Please,            send             me            an            e-mail
+(<Email>Frank.Luebeck@Math.RWTH-Aachen.De</Email>)  if  you  have  any
+questions,  remarks, suggestions,  etc. concerning  this mini-package.
+Also, I would like to hear about applications of this package.<P/>
+
+Frank Lübeck 
+
+<Section Label="Sect-Install">
+<Heading>Installation of the <Package>EDIM</Package> package</Heading>
+
+To install this package first unpack it inside some GAP root directory
+into the subdirectory <F>pkg/edim</F> (see 
+<Ref Sect="Installing a GAP Package" BookName="Reference"/>). Then
+the <Package>EDIM</Package> package can already be loaded and used.
+But we strongly recommend to compile a kernel function as well during
+installation, otherwise 
+the function    <Ref Func="ElementaryDivisorsPPartRkExpSmall"/> 
+will not be available.<P/>
+
+To install the kernel function  go to  the  directory  <F>pkg/edim</F> to
+which the package was extracted and call<P/>
+
+<C>/bin/sh ./configure [path] [CONFIGNAME=...]</C><P/>
+
+where <C>path</C>  is a path  to  the main <Package>GAP</Package> root
+directory (if not given, the default <F>../..</F> is assumed). 
+If you have installed several GAP kernels you can compile the corresponding
+<Package>EDIM</Package> kernel function by specifying the <C>CONFIGNAME</C>
+that was used to configure that kernel.<P/>
+
+Afterwards call <C>make</C>  to  compile  a binary file. <P/>
+
+If you have installed several GAP kernels repeat these two steps for each 
+of them, using the various values of <C>CONFIGNAME</C>.
+
+You  can   run  a test of    the installation  by  typing <C>make test</C>.
+
+<ManSection> 
+
+<InfoClass Name="InfoEDIM"/> 
+
+<Description>    
+This is  an <K>Info</K> class for the <Package>EDIM</Package>-package.
+By <C>SetInfoLevel(InfoEDIM, 1);</C> you can switch on the printing of
+some information     during      the    computations     of    certain
+<Package>EDIM</Package>-functions.  
+</Description>
+</ManSection>
+
+</Section>
+
+<!-- ############################################################ -->
+<Section Label="Sect-PPElDiv">
+<Heading><M>p</M>-Parts of Elementary Divisors</Heading>
+
+Here we explain the main functions of the package.
+
+<ManSection>
+<Func Name="ElementaryDivisorsPPartRk"
+      Arg="A, p[, rk ]"/>
+<Func Name="ElementaryDivisorsPPartRkI"
+      Arg="A, p, rk"/>
+<Func Name="ElementaryDivisorsPPartRkII"
+      Arg="A, p, rk"/>
+<Func Name="ElementaryDivisorsPPartRkExp"
+      Arg="A, p, rk, exp"/>
+<Func Name="ElementaryDivisorsPPartRkExpSmall"
+      Arg="A, p, rk, exp, il"/>
+
+<Description>  These functions  return  a list  <M>[m_1, m_2,  \ldots,
+m_r]</M> where <M>m_i</M> is the number of nonzero elementary divisors
+of <A>A</A>  divisible by  <M><A>p</A>^i</M> (see  <Ref BookName="ref"
+Func="ElementaryDivisorsMat"  /> for  a definition  of the  elementary
+divisors).<P/>
+
+The    algorithms   for   these  functions  are     described in <Cite
+Key="L98"/>.<P/>
+
+<A>A</A> must be a matrix with integer entries,  <A>p</A> a prime, and
+<A>rk</A> the  rank of  <A>A</A> (as rational  matrix).  In  the first
+version of the command <A>rk</A> is computed, if it is not given. <P/>
+
+The first   version of the  command delegates  its  job  to the fourth
+version by trying growing values for <A>exp</A>, see below. <P/>
+
+The second  and third versions implement  the main algorithm described
+in   <Cite     Key="L98"/>    and   a    variation.      Here     <Ref
+Func="ElementaryDivisorsPPartRkII"/> has a bit  more overhead, but can
+be   advantageous    because  the  intermediate    entries  during the
+computation can be much smaller.<P/>
+
+In the fourth form <A>exp</A> must be an  upper bound for the  highest
+power of <A>p</A>  appearing  in an  elementary divisor  of  <A>A</A>.
+This  information  allows    reduction   of  matrix   entries   modulo
+<M><A>p</A>^{<A>exp</A>}</M> during the computation. <P/>
+
+If <A>exp</A> is too  small or the given <A>rk</A>  is not correct the
+function returns `fail'. <P/>
+
+As long as <M><A>p</A>^{<A>exp</A>}</M>  is smaller than <M>2^{28}</M>
+and <M><A>p</A>^{<A>exp</A> +  2}</M> is smaller than <M>2^{31}</M> we
+use  internally a kernel  function which can also  be used directly in
+the  fifth form  of the command.   There <A>il</A>  can be <M>0</M> or
+<M>1</M> where in the  second case some  information is printed during
+the computation.<P/>
+
+This last form  of the  function was  already  succesfully applied  to
+dense matrices of rank up to <M>11000</M>.<P/>
+
+Note that you have to compile a  file (see <Ref Sect="Sect-Install"/>)
+while  installing this  package, if   you  want  to  have this  kernel
+function available.<P/> 
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat");
+Reading 242x242 integer matrix 'mat' with elementary divisors 'eldiv'.
+true
+gap> ElementaryDivisorsPPartRkI(mat, 2, 242); time; # mat has full rank
+[ 94, 78, 69, 57, 23, 23, 9, 2, 2, 0 ]
+490
+gap> ElementaryDivisorsPPartRkExpSmall(mat, 2, 242, 10, 0); time;
+[ 94, 78, 69, 57, 23, 23, 9, 2, 2, 0 ]
+10
+</Example>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+<ManSection>
+<Func Name="ElementaryDivisorsPPartHavasSterling"
+      Arg="A, p, d"
+      Comm="another modular algorithm" />
+
+<Description> 
+For an integer  matrix  <A>A</A> and a  prime <A>p</A>   this function
+returns a list <M>[m_1, m_2,  \ldots, m_r]</M> where <M>m_i</M> is the
+number   of nonzero  elementary   divisors of   <A>A</A>  divisible by
+<M><A>p</A>^i</M>. <P/>
+
+An upper bound <A>d</A> for the highest power of <A>p</A> appearing in
+an  elementary  divisor of  <A>A</A> must be   given. Smaller <A>d</A>
+improve the performance of the algorithm considerably.<P/>
+
+This is an implementation of  the modular algorithm described in <Cite
+Key="HS79"/>. <P/>
+
+We added a slight improvement: we divide the considered submatrices by
+the <A>p</A>-part  of the greatest common divisor  of all entries (and
+lower the  <A>d</A> appropriately).  This  reduces  the size  of   the
+entries and often shortens the pivot search.<P/>
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat");
+Reading 242x242 integer matrix 'mat' with elementary divisors 'eldiv'.
+true
+gap> ElementaryDivisorsPPartHavasSterling(mat, 2, 10); time;
+[ 94, 78, 69, 57, 23, 23, 9, 2, 2 ]
+1260
+</Example>
+</Description>
+</ManSection>
+</Section>
+
+<!-- ############################################################ -->
+
+<Section Label="Sect-InvRatMat">
+<Heading>Inverse of Rational Matrices</Heading>
+
+<ManSection>
+<Func Name="InverseRatMat"
+      Arg="A[, p ]"
+      Comm="inverse of a rational matrix"/>
+
+<Description>  
+This  function returns  the inverse  of  an invertible matrix over the
+rational numbers.<P/>
+
+It first  computes the  inverse  modulo some  prime <A>p</A>, computes
+from this  a  <A>p</A>-adic approximation  to  the inverse and finally
+constructs  the     rational    entries from      their  <A>p</A>-adic
+approximations. See  section  <Ref Sect="Sect-InvRatMatAlg"/>  for more
+details.<P/>
+
+This    seems    to    be   better    than    <Package>GAP</Package>'s
+standard    Gauß   algorithm    (<C>A^-1</C>)   already    for   small
+matrices.   (Try,  e.g.,   <C>RandomMat(20,20,[-10000..10000])</C>  or
+<C>RandomMat(100,100)</C>.)<P/>
+
+The  optional argument <A>p</A> should  be  a prime such that <A>A</A>
+modulo  <A>p</A> is  invertible  (default is  <M><A>p</A>=251</M>). If
+<A>A</A>   is   not  invertible   modulo   <A>p</A>  then <A>p</A>  is
+automatically replaced by the next prime.<P/>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+<ManSection>
+<Func Name="RationalSolutionIntMat"
+      Arg="A, v[, p[, invA ] ]"
+      Comm="rational solution of linear system over integers"/>
+
+<Description>  
+This  function returns the solution <M>x</M> of the system of linear
+equations <M>x <A>A</A> = <A>v</A></M>.<P/>
+
+Here, <A>A</A> must be a matrix with integer entries which is invertible
+over the rationals and <A>v</A> must be a vector with integer entries of
+the appropriate length.<P/>
+
+The  optional arguments  are a  prime <A>p</A>  such that  <M><A>A</A>
+\pmod{p}</M> is invertible  (if not given, <M>p =  251</M> is assumed)
+and the inverse <A>invA</A> of <M><A>A</A> \pmod{p}</M>.<P/>
+
+The solution is computed via <M>p</M>-adic approximation as explained in 
+<Ref Sect="Sect-InvRatMatAlg"/>.<P/>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="ExponentSquareIntMatFullRank"
+      Arg=" A[, p[, nr ] ]"
+      Comm=""/> 
+
+<Description>
+This function  returns the biggest   elementary  divisor of  a  square
+integer matrix <A>A</A> of full rank.<P/>
+
+For  such a  matrix <A>A</A>   the   least  common  multiple of    the
+denominators of all entries of the inverse matrix <M><A>A</A>^{-1}</M>
+is exactly the biggest elementary divisor of <A>A</A>.<P/>
+  
+This function  is  implemented  by   a  slight modification   of  <Ref
+Func="InverseRatMat"/>.   The  third   argument <A>nr</A>   tells  the
+function  to return the least common   multiple of the first <A>nr</A>
+rows  of the rational  inverse matrix  only.  Very  often the function
+will    already    return   the  biggest    elementary    divisor with
+<M><A>nr</A>=2</M> or <M>3</M>  (and the command without this argument
+would spend most time in checking, that this is correct).<P/>
+
+The optional argument  <A>p</A> should be  a prime such  that <A>A</A>
+modulo <A>p</A> is  invertible  (default  is  <M><A>p</A>=251</M>). If
+<A>A</A>     is not  invertible   modulo   <A>p</A>  then <A>p</A>  is
+automatically replaced by the next prime.<P/>
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat");
+Reading 242x242 integer matrix 'mat' with elementary divisors 'eldiv'.
+true
+gap> inv := InverseRatMat(mat);; time;                      
+840
+gap> ExponentSquareIntMatFullRank(mat, 101, 3); # same as without the `3'
+115200
+</Example>
+</Description>
+</ManSection>
+
+</Section>
+
+<!-- ############################################################ -->
+
+<Section Label="Sect-ElDivPad">
+<Heading>All Elementary Divisors Using p-adic Method</Heading>
+
+In the  following two functions we  put things together. In particular
+we  handle the prime parts  of the elementary divisors efficiently for
+primes appearing with low  powers  in the highest  elementary  divisor
+respectively determinant divisor.
+
+<ManSection>
+<Func Name="ElementaryDivisorsSquareIntMatFullRank"
+      Arg=" A "  /> 
+
+<Description>
+This  function returns  a list  of nonzero  elementary divisors of  an
+integer matrix <A>A</A>.<P/>
+  
+Here we  start with computing the biggest  elementary divisor via <Ref
+Func="ExponentSquareIntMatFullRank"/>.   If   it runs   into a problem
+because  <A>A</A> is  singular modulo  a choosen  prime (it  starts by
+default with 251) then the prime is automatically replaced by the next
+one.<P/>
+
+The rest  is done using <Ref Func="ElementaryDivisorsPPartRkExp"/> and
+<Ref Func="RankMod"/>.<P/>
+
+The  function   fails if  the  biggest  elementary divisor  cannot be
+completely factored and the non-factored part is  not a divisor of the
+biggest elementary divisor only.<P/>
+
+Note that this function may  for many matrices  not be the best choice
+for computing all elementary divisors.  You may first try the standard
+<Package>GAP</Package> library routines  for Smith normal form instead
+of         this     function.     Nevertheless     remember       <Ref
+Func="ElementaryDivisorsSquareIntMatFullRank"/>   for hard  and    big
+examples.  It is particularly good when the largest elementary divisor
+is a very small factor of the determinant.
+
+<Example>
+gap> Collected(ElementaryDivisorsSquareIntMatFullRank(mat));      
+[ [ 1, 49 ], [ 3, 99 ], [ 6, 7 ], [ 30, 9 ], [ 60, 9 ], [ 120, 2 ], 
+  [ 360, 10 ], [ 720, 22 ], [ 3600, 12 ], [ 14400, 14 ], 
+  [ 28800, 7 ], [ 115200, 2 ] ]
+gap> time;
+860
+gap> last2 = Collected(DiagonalOfMat(NormalFormIntMat(mat, 1).normal));
+true
+gap> time;
+5170
+</Example>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="ElementaryDivisorsIntMatDeterminant"
+      Arg=" A, det[, rk] "  />
+
+<Description>
+This function  returns a list  of  nonzero elementary divisors  of  an
+integer matrix <A>A</A>.<P/>
+
+Here <A>det</A> must be an integer which is  a multiple of the biggest
+determinant divisor of <A>A</A>.  If   the matrix does not have   full
+rank then its rank <A>rk</A> must be given, too.<P/>
+
+The    argument    <A>det</A>    can be  given      in   the  form  of
+<C>Collected(FactorsInt(<A>det</A>))</C>.<P/>
+
+This function handles  prime divisors of <A>det</A> with  multiplicity
+smaller than  4  specially, for the other  prime  divisors <M>p</M> it
+delegates to   <Ref   Func="ElementaryDivisorsPPartRkExp"/> where  the
+<A>exp</A> argument is the multiplicity of the <M>p</M> in <A>det</A>.
+(Note that  this is not very good  when  <M>p</M> has actually  a much
+smaller multiplicity in the largest elementary divisor.)<P/>
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat");
+Reading 242x242 integer matrix 'mat' with elementary divisors 'eldiv'.
+true
+gap> # not so good:
+gap> ElementaryDivisorsIntMatDeterminant(mat,Product(eldiv)) = 
+> Concatenation([1..49]*0+1, eldiv); time;
+true
+5490
+</Example>
+</Description>
+</ManSection>
+
+</Section>
+
+<!-- ############################################################ -->
+
+<Section Label="Sect-NFIntMatLLL">
+<Heading>Gcd and Normal Forms Using LLL</Heading>
+
+The <Package>EDIM</Package>-mini package also contains implementations
+of an extended  Gcd-algorithm  for integers  and  a Hermite and  Smith
+normal form algorithm  for integer matrices using  LLL-techiques. They
+are well described in the paper <Cite Key="HMM98"/> by Havas, Majewski
+and Matthews.<P/>
+
+They are particularly  useful if one  wants  to have the normal  forms
+together with transforming matrices.  These transforming matrices have
+spectacularly nice   (i.e.,  <Q>small</Q>) entries    in cases of   input
+matrices which  are non-square  or not   of full rank   (otherwise the
+transformation to the Hermite normal form is unique).<P/>
+
+In detail:<P/>
+
+<ManSection>
+<Func Name="GcdexIntLLL"
+      Arg="n1,  n2, ..."  /> 
+
+<Description>  
+This function returns for integers <M><A>n1</A>, <A>n2</A>, \ldots</M> a
+list  <M>[g,  [c_1,  c_2,  \ldots]]</M>, where  <M>g  =  c_1<A>n1</A>  +
+c_2<A>n2</A>  +  \ldots</M>  is  the  greatest  common  divisor  of  the
+<A>ni</A>. Here all the <M>c_i</M> are usually very small.
+
+<Example>
+gap> GcdexIntLLL( 517, 244, -304, -872, -286, 854, 866, 224, -765, -38);
+[ 1, [ 0, 0, 0, 0, 1, 0, 1, 1, 1, 1 ] ]
+</Example>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="HermiteIntMatLLL"
+      Arg="A"  />
+
+<Description>  This  returns  the Hermite normal   form  of an integer
+matrix  <A>A</A> and uses the  LLL-algorithm to avoid entry explosion.
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="HermiteIntMatLLLTrans"
+      Arg=" A "  /> 
+
+<Description> 
+This function returns a pair of matrices <M>[H, L]</M>  where <M>H = L
+<A>A</A></M> is the Hermite normal form of an integer matrix <A>A</A>.
+The transforming matrix <M>L</M> can have surprisingly small entries.
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat2");
+Reading 34x34 integer matrix 'mat2' with elementary divisors 'eldiv2'.
+true
+gap> tr := HermiteIntMatLLLTrans(mat2);; Maximum(List(Flat(tr[2]), AbsInt));
+606
+gap> tr[2]*mat2 = tr[1];                                                
+true
+</Example>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="SmithIntMatLLL"
+      Arg=" A "  /> 
+
+<Description> 
+This  function  returns the  Smith  normal  form of  an integer matrix
+<A>A</A> using the LLL-algorithm to avoid entry explosion.
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="SmithIntMatLLLTrans"
+      Arg=" A  "  />
+
+<Description>
+This  function returns <M>[S, L, R]</M>  where <M>S = L <A>A</A> R</M>
+is the Smith normal form of an integer matrix <A>A</A>.<P/>
+
+We apply  the algorithm for Hermite  normal form several times  to get
+the   Smith  normal     form, that  is   not    in  the    paper <Cite
+Key="HMM98"/>.  The transforming matrices need not  be as  nice as for
+the Hermite normal form.<P/>
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat2");
+Reading 34x34 integer matrix 'mat2' with elementary divisors 'eldiv2'.
+true
+gap> tr := SmithIntMatLLLTrans(mat2);;
+gap> tr[2] * mat2 * tr[3] = tr[1];    
+true
+</Example>
+</Description>
+</ManSection>
+
+</Section>
+
+
+<!-- ############################################################ -->
+
+<Section Label="Sect-Util">
+
+<Heading>Utility Functions from the <Package>EDIM</Package>-package</Heading>
+
+<ManSection>
+<Func Name="RatNumberFromModular"
+      Arg="n, k, l, x"  />
+
+<Description>
+This function returns <M>r/s =  <A>x</A> \pmod{<A>n</A>}</M>, if
+it exists. More precisely:<P/>
+
+<A>n</A>,   <A>k</A>,  <A>l</A>   must  be   positive  integers   with
+<M>2<A>k</A><A>l</A> \leq  <A>n</A></M> and  <A>x</A> an  integer with
+<M>-<A>n</A>/2  &lt;  <A>x</A>  \leq   <A>n</A>/2</M>.  If  it  exists
+this  function returns  a rational  number <M>r/s</M>  with <M>0  &lt;
+s  &lt;  <A>l</A></M>,  <M>\gcd(s,  <A>n</A>)  =  1</M>,  <M>-<A>k</A>
+&lt;  r  &lt; <A>k</A></M>  and  <M>r/s</M>  congruent to  <M><A>x</A>
+\pmod{<A>n</A>}</M> (i.e., <M><A>n</A> \mid  r - s <A>x</A></M>). Such
+an <M>r/s</M>  is unique. The  function returns <K>fail</K> if  such a
+number does not exist.<P/>
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="InverseIntMatMod"
+      Arg="A, p"  /> 
+
+<Description>
+This function  returns  an inverse  matrix modulo  a prime <A>p</A> or
+<K>fail</K>. More precisely:<P/>
+
+<A>A</A>  must  be an  integer matrix and   <A>p</A> a prime such that
+<A>A</A>  is invertible modulo   <A>p</A>.   This function  returns an
+integer matrix <A>inv</A> with   entries in the range  <M>]-<A>p</A>/2
+\ldots <A>p</A>/2]</M> such that  <A>inv</A><A>A</A> reduced  modulo p
+is the identity matrix.<P/>
+
+It returns <K>fail</K>  if the inverse modulo <A>p</A> does not exist.
+
+This function is particularly fast for primes smaller 256.
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="HadamardBoundIntMat"
+      Arg="A"  /> 
+
+<Description>
+The Hadamard bound for a square integer matrix <A>A</A> is the product
+of Euclidean norms of the nonzero rows (or columns) of <A>A</A>. It is
+an upper bound for the absolute value of the determinant of <A>A</A>.
+</Description>
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="CheapFactorsInt"
+      Arg="n[, nr]"  /> 
+
+<Description>
+This  function  returns a  list  of factors  of   an integer <A>n</A>,
+including  <Q>small</Q> prime  factors -  here   the optional argument
+<A>nr</A> is the   number of iterations  for `FactorsRho'  (default is
+2000).<P/>
+
+This  is  only  a  slight  modification of  the  library  function  <Ref
+Func="FactorsInt" BookName="ref"/>  which avoids  an error  message when
+the number is not completely factored.<P/> 
+</Description> 
+</ManSection>
+
+<!-- ############################################################ -->
+
+<ManSection>
+<Func Name="RankMod"
+      Arg="A, p"  />
+
+<Description>
+This function returns the rank  of  an integer matrix <A>A</A>  modulo
+<A>p</A>. Here <A>p</A> must not necessarily be  a prime. If it is not
+and  this function   returns an  integer, then   this is   the rank of
+<A>A</A> for all prime divisors of <A>p</A>.<P/>
+
+If  during the   computation  a  factorisation  of   <A>p</A> is found
+(because some pivot entry has nontrivial  greatest common divisor with
+<A>p</A>) then the function     is recursively applied to   the  found
+factors <C>f_i</C> of <A>p</A>.  The result is then given in the form
+<C>[[f_1, rk_1], [f_2, rk_2], ...]</C>.<P/>
+
+The idea to make  this function useful  for non primes  was to use  it
+with large factors of the biggest elementary divisor of <A>A</A> whose
+prime factorization cannot be found easily.<P/>
+
+<Example>
+gap> ReadPackage("edim",  "tst/mat");
+Reading 242x242 integer matrix 'mat' with elementary divisors 'eldiv'.
+true
+gap> RankMod(mat, 5);
+155
+gap> RankMod(mat, (2*79*4001));
+[ [ 2, 148 ], [ 79, 242 ], [ 4001, 242 ] ]
+</Example>
+</Description>
+</ManSection>
+
+</Section>
+
+<!-- ############################################################ -->
+
+<Section Label="Sect-InvRatMatAlg">
+<Heading>InverseRatMat - the Algorithm</Heading>
+
+
+The  idea   is to  recover a rational    matrix from  an <M>l</M>-adic
+approximation for some prime <M>l</M>.   This description came out  of
+discussions with Jürgen Müller.  I  thank John Cannon for pointing out
+that the basic idea already appeared in the paper <Cite Key="D82"/> of
+Dixon.<P/>
+
+Let <M>A</M> be an  invertible matrix over  the rational  numbers.  By
+multiplying with a constant we may assume that its entries are in fact
+integers.<P/>
+
+(1) We first  describe how to find  an  <M>l</M>-adic approximation of
+<M>A^{-1}</M>.  Find a prime <M>l</M> such that <M>A</M> is invertible
+modulo <M>l</M> and let <M>B</M> be the integer matrix with entries in
+the   range   <M>\left]-l/2,l/2\right]</M>  such  that   <M>BA</M>  is
+congruent  to  the identity matrix   modulo  <M>l</M>.  (This  can  be
+computed fast by usual Gauß elimination.)<P/>
+
+Now let  <M>v \in  &ZZ;^r</M> be  a row  vector. Define  two sequences
+<M>v_i</M> and <M>x_i</M>  of row vectors in  <M>&ZZ;^r</M> by: <M>x_0
+:= 0  \in &ZZ;^r</M>,  <M>v_0 :=  -v</M> and for  <M>i &gt;  0</M> set
+<M>x_i</M>  to  the  vector  congruent  to  <M>-v_{i-1}  B</M>  modulo
+<M>l</M> having  entries in  the range  <M>\left]-l/2, l/2\right]</M>.
+Then all entries  of <M>x_i A + v_{i-1}</M> are  divisible by <M>l</M>
+and we set <M>v_i := (1/l) \cdot (x_i A + v_{i-1})</M>.<P/>
+
+Induction  shows that for <M>y_i  := \sum_{k=1}^{i} l^{k-1} x_k</M> we
+have <M>y_i A  = v +  l^i v_i</M> for all  <M>i \geq 0</M>.  Hence the
+sequence  <M>y_i</M>,    <M>i \geq    0</M>,  gives  an  <M>l</M>-adic
+approximation to  the vector <M>y \in &QQ;^r</M>  with <M>y  A =
+v</M>.<P/>
+
+(2) The second point is  to show how  we can  get the vector  <M>y</M>
+from a  sufficiently  good  approximation <M>y_i</M>.  Note   that the
+sequence of <M>y_i</M> becomes  constant for <M>i  \geq i_0</M> if all
+entries   of  <M>y</M> are  integers  of  absolute  value smaller than
+<M>l^{i_0} / 2</M> because of our choice of representatives of residue
+classes    modulo  <M>l</M>    in      the interval     <M>\left]-l/2,
+l/2\right]</M>.<P/>
+
+More generally consider <M>a / b \in &QQ;</M> with <M>b &gt; 0</M> and
+<M>a, b</M> coprime. Then there is for each <M>n \in &NN;</M> which is
+coprime to <M>b</M> a  unique <M>c \in &ZZ;</M> with <M>-n  / 2 &lt; c
+\leq n / 2</M>  and <M>a \equiv c b \pmod{n}</M>. This <M>c</M> can be
+computed via the extended Euclidean  algorithm applied to <M>b</M> and
+<M>n</M>.<P/>
+
+Now let <M>n,  \alpha, \beta \in &NN;</M> with <M>2  \alpha \beta \leq
+n</M>. Then the map <M>\{a/b \in &QQ; \mid -\alpha \leq a \leq \alpha,
+1 \leq b &lt; \beta  \} \rightarrow \left]-n/2, n/2\right]</M>, <M>a/b
+\mapsto c</M> (defined  as above) is injective  (since for <M>a/b</M>,
+<M>a'/b'</M>  in the  above  set we  have  <M>a  b' -  a'  b \equiv  0
+\pmod{n}</M> if and only if <M>a b' - a' b = 0</M>).<P/>
+
+In practice we  can use for any  <M>c \in \left]-n/2, n/2\right]</M> a
+certain extended Euclidean  algorithm applied to <M>n</M> and <M>c</M>
+to decide if <M>c</M> is in the image of the above map and to find the
+corresponding <M>a/b</M> if it exists.<P/>
+
+(3) To put things together we apply (2)  to the entries of the vectors
+<M>y_i</M> constructed  in (1), choosing <M>n   = l^i</M>, <M>\alpha =
+\sqrt{n}/2</M> and <M>\beta = \sqrt{n}</M>. If  we have found this way
+a candidate  for  <M>y</M> we can  easily  check if it  is correct  by
+computing <M>y A</M>.  If <M>\mu</M> is the  maximal absolute value of
+all numerators and denominators of the entries of <M>y</M> it is clear
+from (2) that we will find  <M>y</M> from <M>y_i</M>  if <M>l^i &gt; 2
+\mu^2</M>.<P/>
+
+(4) If we take as <M>v</M>  in (1) to(3)  all standard unit vectors we
+clearly get  the   rows  of  <M>A^{-1}</M>.    But   we  can  do    it
+better.  Namely we  can take   as <M>v</M>  the standard unit  vectors
+multiplied   by the  least  common   multiple  <M>\epsilon</M> of  the
+denominators  of the already   computed entries of <M>A^{-1}</M>.   In
+many examples  this <M>\epsilon</M>  actually equals <M>\epsilon_r</M>
+after  the computation of  the first or  first few rows.  Therefore we
+will often find quickly the next row of  <M>A^{-1}</M> already in (1),
+because we find a <M>v_i = 0</M> such  that the sequence of <M>y_i</M>
+becomes constant (<M>=y</M>).<P/>
+
+<Subsection Label="Ssect-rankintmat">
+<Heading>Rank of Integer Matrix</Heading>
+
+The following strategy has shown to  be useful in proving that some very
+big integer matrix is not invertible.<P/>
+
+<List>
+<Item>Check  the   rank  modulo  some   small  primes,  say   with  <Ref
+Func="RankMod"/>. </Item>
+<Item>If the  rank seems  less than  the number of  rows choose  a prime
+<M>p</M>, a  collection of  lines which  is linearly  independent modulo
+<M>p</M>, and another line linearly  dependend on these. Guess that this
+last line is  also linearly dependend on the chosen  collection over the
+rational numbers (maybe check modulo several small primes).</Item>
+<Item>Find columns of  the collection of lines which  give an invertible
+matrix modulo some prime.</Item>
+<Item>Then use <Ref  Func="RationalSolutionIntMat"/> with the invertible
+submatrix and  corresponding entries  of the  linearly dependend  row to
+prove this.</Item>
+</List>
+
+Guessing  the rank  of a  matrix from  the rank  modulo several  primes,
+chosing a  maximal set  of lines which  are linearly  independent modulo
+some  primes, and  using <Ref  Func="RationalSolutionIntMat"/> with  the
+remaining lines,  one may  also find  the exact rank  of a  huge integer
+matrix. <P/>
+
+</Subsection>
+
+</Section>
+
+</Chapter>
+
