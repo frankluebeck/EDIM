@@ -33,5 +33,5 @@ echo "            repack.py $DIRNAM.tar.gz"
 echo "to produce the other archive formats."
 echo 
 echo "Then check dev/index.html and use"
-echo "            dev/cptoweb"
+echo "            dev/copytoweb"
 

@@ -1,3 +1,11 @@
+1.3.3 - improved argument checking of kernel function, also made is work
+        with matrices of long integers
+      - provide (simpler) configure/Makefile.in for build system in
+        GAP > 4.8 (but old versions kept, will still work with older
+        versions of GAP)
+      - provide a public repository at
+            https://github.com/frankluebeck/EDIM
+
 1.3.2 - setting LANG and LC_ALL environment variables to "C" in configure
         script to avoid some locale related problems under OS X
 
