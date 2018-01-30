@@ -2,7 +2,7 @@
 # (C) Frank Lübeck 2011
 # configure script for Browse, EDIM and other packages
 # usage: ./configure [GAPPATH] [CONFIGNAME=myconf]
-# this script creates a "Makefile-myconf" from "Makefile.in" with
+# this script creates a "Makefile-myconf" from "Makefile.in.old" with
 # a link to "Makefile"
 
 # some tools on OS X made locale related problems, so:
@@ -56,7 +56,7 @@ rm -f Makefile Makefile-$CONFIGNAME
 GAParchprot="$GAParch"
 echo GAPPATH=$GAPPATH >Makefile-$CONFIGNAME 
 echo CONFIGNAME=$CONFIGNAME >>Makefile-$CONFIGNAME
-cat Makefile.in | sed -e "s/@GAPARCH@/$GAParchprot/g" | sed -e "s/@CONFIGNAME@/$CONFIGNAME/g"  >>Makefile-$CONFIGNAME
+cat Makefile.in.old | sed -e "s/@GAPARCH@/$GAParchprot/g" | sed -e "s/@CONFIGNAME@/$CONFIGNAME/g"  >>Makefile-$CONFIGNAME
 ln -s Makefile-$CONFIGNAME Makefile
 echo "Created ./Makefile-"$CONFIGNAME" with link from ./Makefile"
 
