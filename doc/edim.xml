@@ -6,7 +6,7 @@
 
   manual.xml          EDIM mini-package documentation        Frank Lübeck
 
-  Copyright (C) 2000, Lehrstuhl D für Mathematik, RWTH-Aachen
+  Copyright (C) 2000-2018, Lehrstuhl D für Mathematik, RWTH-Aachen
 
 -->
 
@@ -16,13 +16,13 @@
     <Title><Package>EDIM</Package></Title>
     <Subtitle>Elementary Divisors and Integer Matrices</Subtitle>
     <Version>
-      <#Include SYSTEM "../VERSION">
+      Version <#Include SYSTEM "../VERSION">
     </Version>
     <Author>Frank Lübeck
 <Address>
 Lehrstuhl D für Mathematik
 RWTH Aachen
-Templergraben 64
+Pontdriesch 14/16
 52062 Aachen
 Germany
 </Address>
@@ -31,7 +31,7 @@ Germany
     </Author>
     <Date>June 2013</Date>
     <Copyright> <Index>License</Index>
-              &copyright; 2000-2013 by Frank Lübeck <P/>
+              &copyright; 2000-2018 by Frank Lübeck <P/>
               <Package>EDIM</Package>  
               is free software; you can redistribute it
               and/or modify it under the terms of the <URL Text="GNU
