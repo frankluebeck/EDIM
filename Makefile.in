@@ -1,0 +1,37 @@
+# makefile prototype for the EDIM package (assuming GAP >= 4.9) Frank Lübeck
+
+GAPPATH=@GAPPATH@
+
+GAPINCL=-I$(GAPPATH)/src -I$(GAPPATH)/bin/@GAPARCH@/src
+
+PKGROOT=$(shell pwd)
+
+GAP=$(GAPPATH)/bin/gap.sh
+
+GAC=$(GAPPATH)/gac
+
+.PHONY: clean doc test
+
+default: bin/@GAPARCH@/ediv.so 
+
+# this target creates a bin-directory
+bin/@GAPARCH@:
+	mkdir -p bin/@GAPARCH@
+
+bin/@GAPARCH@/ediv.so: src/ediv.c bin/@GAPARCH@
+	$(GAC) -d -o bin/@GAPARCH@/ediv.so src/ediv.c
+
+doc:
+	$(GAP)  makedocrel.g
+
+clean: 
+	rm -rf bin/@GAPARCH@ Makefile *~
+
+distclean:
+	rm -rf bin Makefile Makefile-*
+
+docclean:
+	(cd  doc; ./clean)
+
+test:
+	$(GAP) -b -q -r < tst/test.g

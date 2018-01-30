@@ -1,0 +1,31 @@
+#!/bin/sh
+# (C) Frank Lübeck     2018
+# configure script for EDIM with GAP > 4.8 (different build system for GAP)
+
+# some tools on OS X made locale related problems, so:
+export LANG=C
+export LC_ALL=C
+
+# GAP path
+if [ $# = 0 ]; then
+  GAPPATH="../../"
+else
+  GAPPATH=$1
+fi
+echo "Using $GAPPATH as GAP build directory."
+
+if [ ! -e "$GAPPATH/GNUmakefile" ]; then
+  # GAP version < 4.9, use old configure script
+  ./configure.old $*
+  exit
+fi
+
+# Reading variables from GAP build directory
+. "$GAPPATH/sysinfo.gap"
+
+echo "Using bin path: $GAParch"
+
+# Creating Makefile
+sed -e "s|@GAPPATH@|$GAPPATH|g" -e "s|@GAPARCH@|$GAParch|g" \
+             < Makefile.in > Makefile
+
