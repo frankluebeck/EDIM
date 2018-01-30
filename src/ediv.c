@@ -64,8 +64,8 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   Obj A1obj, A2obj, Tpobj, resobj, invobj, probj, obj, row;
 
   /*  change args  */
-  if (! IS_PLIST_OR_POSOBJ(A) || LEN_PLIST(A) < 1 || 
-      ! IS_PLIST_OR_POSOBJ(ELM_PLIST(A, 1))) {
+  if (! (IS_PLIST(A) || IS_POSOBJ(A)) || LEN_PLIST(A) < 1 || 
+      ! (IS_PLIST(A) || IS_POSOBJ(ELM_PLIST(A, 1)))) {
      ErrorQuit("A must be an integer matrix",0L,0L); 
   }
   m = (unsigned long) LEN_PLIST(A);
@@ -111,7 +111,7 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
     }
     for (j=1; j<=n; j++) {
       obj = ELM_PLIST(ELM_PLIST(A, i), j);
-      if (! IS_INT(obj)) {
+      if (!(IS_INTOBJ(obj) || TNUM_OBJ(obj)==T_INT || TNUM_OBJ(obj)==T_INTNEG)) {
          ErrorQuit("matrix entry must be integer",0L,0L);
       }
       if (LtInt(probj, obj) || LtInt(obj, INTOBJ_INT(0))) {
