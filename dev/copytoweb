@@ -1,0 +1,34 @@
+#!/bin/bash
+
+vers=`cat VERSION`
+
+WEBDIR="/users/luebeck/MyWWWHome/web/~Frank.Luebeck/gap/EDIM"
+echo "Is ./dev/index.html updated (Version, subdir, archive names, last updated)?"
+echo "Copying files to this web directory, is that ok?"
+echo "       "$WEBDIR
+echo "Assuming that in this directory exist archives "
+echo "       edim-"$vers"{.tar.bz2,,tar.gz,.zoo,-win.zip}"
+
+echo "Shall I start (y/N)?"
+read -n 1 -p "-->" start
+echo
+if [ $start'X' != 'yX' ]; then
+  echo Ok, please adjust and try again.
+  exit 2
+fi
+
+mkdir -p $WEBDIR
+
+echo producing HTML-version of manual with external links to GAP site . . .
+rm -f tttttmppre
+echo 'pathtoroot := "http://www.gap-system.org/Manuals";' >  tttttmppre
+gap -r  tttttmppre < makedocrel.g > /dev/null
+
+echo copying archives . . .
+cp edim-$vers{.tar.bz2,.tar.gz,.zoo,-win.zip} $WEBDIR
+echo copying HTML- and PDF-version of manual . . .
+mkdir -p $WEBDIR/doc
+cp doc/*.html doc/*.css doc/*.js doc/manual.pdf $WEBDIR/doc/
+echo copying index.html pkgreadme.css PackageInfo.g README version . . .
+cp dev/index.html dev/pkgreadme.css PackageInfo.g README  CHANGES VERSION $WEBDIR
+
