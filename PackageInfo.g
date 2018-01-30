@@ -10,10 +10,10 @@ PackageName := "EDIM",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "1.3.2",
+Version := "1.3.3",
 
 ##  Release date of the current version in dd/mm/yyyy format.
-Date := "12/06/2013",
+Date := "30/01/2018",
 
 ##  Subtitle, a header line for the package, for example a long form of the 
 ##  package name. (Should fit on one line together with the package name.)
@@ -23,7 +23,7 @@ Subtitle := "Elementary Divisors of Integer Matrices",
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name must be changed with each version of the archive
 ##  (and probably somehow contain the package name an version).
-ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-1.3.2",
+ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-1.3.3",
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
