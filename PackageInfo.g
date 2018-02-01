@@ -20,7 +20,7 @@ Date := "30/01/2018",
 Subtitle := "Elementary Divisors of Integer Matrices",
 
 ##  URL of the archive(s) of the current package release, but *without*
-##  the format extension(s), like '.zoo', which are given next.
+##  the format extension(s), like '.tar.gz' or '-win.zip', which are given next.
 ##  The archive file name must be changed with each version of the archive
 ##  (and probably somehow contain the package name an version).
 ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-1.3.3",
@@ -28,8 +28,6 @@ ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-1.3.3",
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
 ##  Currently recognized formats are:
-##      .zoo       the (GAP-traditional) zoo-format with "!TEXT!" comments 
-##                 for text files
 ##      .tar.gz    the UNIX standard
 ##      .tar.bz2   compressed with 'bzip2', often smaller than with gzip
 ##      -win.zip   zip-format for DOS/Windows, text files must have DOS 
@@ -38,30 +36,7 @@ ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-1.3.3",
 ##  In the future we may also provide .deb or .rpm formats which allow
 ##  a convenient installation and upgrading on Linux systems.
 ##  
-ArchiveFormats := ".tar.bz2  .zoo  .tar.gz   -win.zip",
-
-##  If not all of the archive formats mentioned above are provided, these 
-##  can be produced at the GAP side. Therefore it is necessary to know which
-##  files of the package distribution are text files which should be unpacked
-##  with operating system specific line breaks. There are the following 
-##  possibilities to specify the text files:
-##  
-##    - specify below a component 'TextFiles' which is a list of names of the 
-##      text files, relative to the package root directory (e.g., "lib/bla.g")
-##    - specify below a component 'BinaryFiles' as list of names, then all other
-##      files are taken as text files.
-##    - if no 'TextFiles' or 'BinaryFiles' are given and a .zoo archive is
-##      provided, then the files in that archive with a "!TEXT!" comment are
-##      taken as text files
-##    - otherwise: exactly the files with names matching the regular expression
-##      ".*\(\.txt\|\.gi\|\.gd\|\.g\|\.c\|\.h\|\.htm\|\.html\|\.xml\|\.tex\|\.six\|\.bib\|\.tst\|README.*\|INSTALL.*\|Makefile\)"
-##      are taken as text files
-##  
-##  (Example: Just providing a .tar.gz file will often result in useful
-##  archives)
-##  
-#TextFiles := ["init.g", ......],
-#BinaryFiles := ["doc/manual.dvi", ......],
+ArchiveFormats := ".tar.bz2 .tar.gz -win.zip",
 
 
 ##  Information about authors and maintainers. Specify for each person a 
@@ -170,8 +145,6 @@ PackageWWWHome := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM",
 PackageDoc := rec(
   # use same as in GAP            
   BookName := "EDIM",
-  # format/extension can be one of .zoo, .tar.gz, .tar.bz2, -win.zip
-  # Archive := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edimdoc-1p1.tar.bz2",
   # a list of directories and/or file names in the package archive which
   # contains the documentation
   ArchiveURLSubset := ["doc"],
