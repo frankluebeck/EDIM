@@ -90,7 +90,7 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   /* pr = p^(r+1) */
   probj = PowInt(pobj, SumInt(robj, INTOBJ_INT(1)));
   if (! IS_INTOBJ(probj)) { 
-     ErrorQuit("p^(r+2) must be a small integer",0L,0L);
+     ErrorQuit("p^(r+1) must be a small integer",0L,0L);
   }
   /* max number of summands of size p^(r+1)*p before reduction is necessary
      because of integer overflow */
