@@ -23,7 +23,9 @@ Subtitle := "Elementary Divisors of Integer Matrices",
 ##  the format extension(s), like '.zoo', which are given next.
 ##  The archive file name must be changed with each version of the archive
 ##  (and probably somehow contain the package name an version).
-ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-1.3.3",
+ArchiveURL := Concatenation(
+                "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/edim-",
+                ~.Version ),
 
 ##  All provided formats as list of file extensions, separated by white
 ##  space or commas.
