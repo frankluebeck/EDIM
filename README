@@ -3,14 +3,12 @@
 To get the newest version of this  GAP 4 package download one of the archive
 files
     EDIM-x.x.tar.gz
-    EDIM-x.x.zoo
     EDIM-x.x.tar.bz2
-    EDIM-x.x.zip
-    EDIM-x.x-w.zip      (with text files in DOS/Windows format)
+    EDIM-x.x-win.zip      (with text files in DOS/Windows format)
 and unpack it using 
     gunzip EDIM-x.x.tar.gz; tar xvf EDIM-x.x.tar
 respectively
-    unzoo -x EDIM-x.x.zoo
+    unzip EDIM-x.x-win.zip
 and so on.
 
 Do this preferably (but not necessarily) inside the `pkg' subdirectory
