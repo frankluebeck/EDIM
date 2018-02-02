@@ -10,10 +10,10 @@ PackageName := "EDIM",
 
 ##  See '?Extending: Version Numbers' in GAP help for an explanation
 ##  of valid version numbers.
-Version := "1.3.3",
+Version := "1.3.3.dev",
 
 ##  Release date of the current version in dd/mm/yyyy format.
-Date := "30/01/2018",
+Date := "02/02/2018",
 
 ##  Subtitle, a header line for the package, for example a long form of the 
 ##  package name. (Should fit on one line together with the package name.)
