@@ -1,5 +1,6 @@
-1.3.3 - improved argument checking of kernel function, also made is work
+1.3.3 - improved argument checking of kernel function, also made it work
         with matrices of long integers
+      - added a test file for package tests for GAP distribution
       - provide (simpler) configure/Makefile.in for build system in
         GAP > 4.8 (but old versions kept, will still work with older
         versions of GAP)
