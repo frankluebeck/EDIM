@@ -41,12 +41,6 @@ integers (see <Ref Func="GcdexIntLLL"/>) and  for Hermite normal forms
 of integer matrices with  (very nice) transforming matrices  (see <Ref
 Func="HermiteIntMatLLL"/>).<P/>
 
-By   default  the   <Package>EDIM</Package>   is  automatically   loaded
-by   &GAP;   when   it   is  installed.   If   the   automatic   loading
-is   disabled  in   your  installation   you  must   load  the   package
-with   <C>RequirePackage("edim");</C>   before  its   functions   become
-available.<P/>
-
 Please,            send             me            an            e-mail
 (<Email>Frank.Luebeck@Math.RWTH-Aachen.De</Email>)  if  you  have  any
 questions,  remarks, suggestions,  etc. concerning  this mini-package.
@@ -58,7 +52,7 @@ Frank Lübeck
 <Heading>Installation of the <Package>EDIM</Package> package</Heading>
 
 To install this package first unpack it inside some GAP root directory
-into the subdirectory <F>pkg/edim</F> (see 
+in the subdirectory <F>pkg</F> (see 
 <Ref Sect="Installing a GAP Package" BookName="Reference"/>). Then
 the <Package>EDIM</Package> package can already be loaded and used.
 But we strongly recommend to compile a kernel function as well during
@@ -66,21 +60,23 @@ installation, otherwise
 the function    <Ref Func="ElementaryDivisorsPPartRkExpSmall"/> 
 will not be available.<P/>
 
-To install the kernel function  go to  the  directory  <F>pkg/edim</F> to
+To install the kernel function  go to  the  directory  <F>pkg/EDIM-...</F> to
 which the package was extracted and call<P/>
 
-<C>/bin/sh ./configure [path] [CONFIGNAME=...]</C><P/>
+<C>/bin/sh ./configure [path]</C><P/>
 
 where <C>path</C>  is a path  to  the main <Package>GAP</Package> root
 directory (if not given, the default <F>../..</F> is assumed). 
+<!--   Adjust later
 If you have installed several GAP kernels you can compile the corresponding
 <Package>EDIM</Package> kernel function by specifying the <C>CONFIGNAME</C>
 that was used to configure that kernel.<P/>
+-->
 
 Afterwards call <C>make</C>  to  compile  a binary file. <P/>
 
 If you have installed several GAP kernels repeat these two steps for each 
-of them, using the various values of <C>CONFIGNAME</C>.
+of them. <!-- , using the various values of <C>CONFIGNAME</C>.-->
 
 You  can   run  a test of    the installation  by  typing <C>make test</C>.
 
@@ -141,17 +137,21 @@ computation can be much smaller.<P/>
 In the fourth form <A>exp</A> must be an  upper bound for the  highest
 power of <A>p</A>  appearing  in an  elementary divisor  of  <A>A</A>.
 This  information  allows    reduction   of  matrix   entries   modulo
-<M><A>p</A>^{<A>exp</A>}</M> during the computation. <P/>
+<M><A>p</A>^{{<A>exp+1</A>}}</M> during the computation. <P/>
 
-If <A>exp</A> is too  small or the given <A>rk</A>  is not correct the
-function returns `fail'. <P/>
+If <A>exp</A> is too  small or the given <A>rk</A>  is too large the
+function returns <K>fail</K>. <P/>
 
-As long as <M><A>p</A>^{<A>exp</A>}</M>  is smaller than <M>2^{28}</M>
-and <M><A>p</A>^{<A>exp</A> +  2}</M> is smaller than <M>2^{31}</M> we
-use  internally a kernel  function which can also  be used directly in
-the  fifth form  of the command.   There <A>il</A>  can be <M>0</M> or
-<M>1</M> where in the  second case some  information is printed during
-the computation.<P/>
+If <M><A>p</A>^{<A>exp</A>}</M>  is small  enough we use  internally a
+kernel function which  can also be used directly in  the fifth form of
+the command. There <A>il</A> can be  <M>0</M> or <M>1</M> where in the
+second case some information is printed during the computation.<P/>
+
+More  precisely,  <Ref  Func="ElementaryDivisorsPPartRkExpSmall"/>  is
+applicable  when <M><A>p</A>^{{<A>exp</A>+1}}  &lt; 2^{{b-4}}</M>  and
+<M>(<A>p</A>^{{<A>exp</A>+1}} - 1)(p-1) &lt; 2^b</M> where <M>b=32</M>
+in a  32-bit version of &GAP;  and <M>b=64</M> in a  64-bit version of
+&GAP;.<P/>
 
 This last form  of the  function was  already  succesfully applied  to
 dense matrices of rank up to <M>11000</M>.<P/>
