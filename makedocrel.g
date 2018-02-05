@@ -1,16 +1,11 @@
 ##  this creates the documentation, needs: GAPDoc package, latex, pdflatex,
-##  mkindex, dvips
-##  
+##  mkindex
 
-RequirePackage("GAPDoc");
-
-MakeGAPDocDoc("doc", "edim", [], "EDIM", "../../..", "MathJax");
-# need another run
-Exec("cd doc; pdflatex edim.tex >> /dev/null; mv edim.pdf manual.pdf");
-
+# substitute this by path to main GAP directory, if this package is not
+# in standard location
+relpath:="../../..";
+LoadPackage("GAPDoc");
+MakeGAPDocDoc("doc", "edim", [], "EDIM", relpath, "MathJax");
 GAPDocManualLab("EDIM");
-
 CopyHTMLStyleFiles("doc");
-
 QUIT;
-

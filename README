@@ -33,8 +33,10 @@ Afterwards call `make'  to  compile  a binary file.
 The package  will  also work without  this  step  but then the  kernel
 function `ElementaryDivisorsPPartRkExpSmall' will not be available.
 
-Recompiling the documentation is possible  by the command 'make doc' in
-the EDIM directory. But this should not be necessary.
+Recompiling the documentation is possible  by the command 
+     gap makedocrel.g   
+in the EDIM directory (edit 'relpath' in this file, if EDIM is not installed
+in the standard location, otherwise this should not be necessary).
 
 You can also run a test of the installation by 'make test'.
 
