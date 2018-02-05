@@ -5,7 +5,7 @@
 
 ReadPackage("edim", "tst/mat2");
 Print("From here you should only see a sequence of `true' lines,\nuntil ",
-      "the session quits: (after a few minutes)\n");
+      "the session quits.\n");
 
 LoadPackage("edim");
 #SetInfoLevel(InfoEDIM, 1);
@@ -19,6 +19,8 @@ ElementaryDivisorsPPartRkI(mat2, 2, 34)=[ 34, 13, 10, 10, 0 ];
 ElementaryDivisorsPPartRkII(mat2, 2, 34)=[ 34, 13, 10, 10, 0 ];
 ElementaryDivisorsPPartRkExp(mat2, 2, 34, 5)=[ 34, 13, 10, 10, 0 ];
 ElementaryDivisorsPPartRkExpSmall(mat2, 2, 34, 5, 0)=[ 34, 13, 10, 10, 0 ];
+ElementaryDivisorsPPartRkExpSmall(mat2+(2^70+1)*2^6,2,34,5,0)=[34,13,10,10,0];
+ElementaryDivisorsPPartRkExpSmall(mat2-(2^70+1)*2^6,2,34,5,0)=[34,13,10,10,0];
 ElementaryDivisorsSquareIntMatFullRank(mat2)=eldiv2;
 ElementaryDivisorsIntMatDeterminant(mat2, 
         1406938906943787632903941535325707304960)=eldiv2;
