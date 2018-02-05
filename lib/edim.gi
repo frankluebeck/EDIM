@@ -392,9 +392,10 @@ end);
 ##  Here <exp> is  allowed  to be too   small. In this case  the  function
 ##  returns 'fail'.
 ##  
-##  The command with the 'Small' ending can be used as long as <p>^<rk> is
-##  smaller  than 2^28 and  <p>^(<rk>+2) is smaller than  2^32.  This is a
-##  kernel function, which can be fast even for large matrices.
+##  The  command  with  the  'Small'  ending   can  be  used  as  long  as
+##  <p>^(<exp>+1) is  an immediate  integer and  (<p>^(<exp>-1))(p-1) fits
+##  into an unsigned C long integer.  This is a kernel function, which can
+##  be fast even for large matrices.
 ##  
 InstallGlobalFunction(ElementaryDivisorsPPartRk, function(arg)
   local   A,  p,  m,  n,  rk,  r,  res, tmp, z;
@@ -568,14 +569,15 @@ InstallGlobalFunction(ElementaryDivisorsPPartRkII,  function(A, p, rk)
 end);
 
 InstallGlobalFunction(ElementaryDivisorsPPartRkExp,  function(A, p, rk, r)
-  local   A1,  A2,  A2l, Tp, pr,  m,  n,  i,  j,  inv,  res,  i0,  ii,  
+  local   A1,  A2,  A2l, Tp, pr,  b, m,  n,  i,  j,  inv,  res,  i0,  ii,  
           x,  c,  vv,  pos,  i1;
   
   pr := p^(r+1);
   
   # if everything small then delegate to kernel function
-  if IsBoundGlobal("ElementaryDivisorsPPartRkExpSmall") and p*pr < 2^32 
-     and IsPlistRep(A) and ForAll(A, IsPlistRep) then
+  b := 8 * GAPInfo.BytesPerVariable;
+  if IsBoundGlobal("ElementaryDivisorsPPartRkExpSmall") and (p-1)*(pr-1) < 2^b 
+     and IsPlistRep(A) and ForAll(A, IsPlistRep) and pr < 2^(b-4) then
     return ValueGlobal("ElementaryDivisorsPPartRkExpSmall") 
            (A, p, rk, r, InfoLevel(InfoEDIM));
   fi;

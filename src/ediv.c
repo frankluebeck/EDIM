@@ -90,15 +90,16 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   /* pr = p^(r+1) */
   probj = PowInt(pobj, SumInt(robj, INTOBJ_INT(1)));
   if (! IS_INTOBJ(probj)) { 
-     ErrorQuit("p^(r+2) must be a small integer",0L,0L);
+     ErrorQuit("exponent too large, see ?ElementaryDivisorsPPartRkExpSmall",0L,0L);
   }
-  /* max number of summands of size p^(r+1)*p before reduction is necessary
-     because of integer overflow */
+  /* p^(r+1)-1 must fit at least (p-1) times into an unsigned long */
   pr = (unsigned long) INT_INTOBJ(probj);
-  chmax = ULONG_MAX/(pr) - 1;
-  if (chmax == 0) {
-     ErrorQuit("p^(r+2) must be a small int",0L,0L);
+  if (ULONG_MAX/(pr-1) < (p-1)) {
+     ErrorQuit("exponent too large, see ?ElementaryDivisorsPPartRkExpSmall",0L,0L);
   }
+  /* max sum of coeffs of numbers of size (p^(r+1)-1) before reduction is 
+     necessary to avoid integer overflow */
+  chmax = ULONG_MAX/(pr-1)-1;
   A2obj = NewBag(T_DATOBJ, (n+1)*(m+1)*sizeof(unsigned long));
   A2 = (unsigned long *)ADDR_OBJ(A2obj);
   A2[0] = m;
@@ -111,8 +112,9 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
     }
     for (j=1; j<=n; j++) {
       obj = ELM_PLIST(ELM_PLIST(A, i), j);
-      if (!(IS_INTOBJ(obj) || TNUM_OBJ(obj)==T_INT || TNUM_OBJ(obj)==T_INTNEG)) {
-         ErrorQuit("matrix entry must be integer",0L,0L);
+      if (!(IS_INTOBJ(obj) || TNUM_OBJ(obj)==T_INTPOS || TNUM_OBJ(obj)==T_INTNEG)) {
+         ErrorQuit("matrix entry must be integer (not a %s)",
+                                              (Int)TNAM_OBJ(obj),0L);
       }
       if (LtInt(probj, obj) || LtInt(obj, INTOBJ_INT(0))) {
 	obj = ModInt(obj, probj);
