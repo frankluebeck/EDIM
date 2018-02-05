@@ -67,7 +67,7 @@ AvailabilityTest := function()
   return true;
 end,
 Autoload := false,
-#TestFile := "tst/testall.g",
+TestFile := "tst/testall.g",
 Keywords := ["Smith normal form", "p-adic", "rational matrix inversion"]
 ));
 

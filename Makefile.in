@@ -34,4 +34,4 @@ docclean:
 	(cd  doc; ./clean)
 
 test:
-	$(GAP) -b -q -r < tst/test.g
+	$(GAP) -b -q -r tst/testall.g
