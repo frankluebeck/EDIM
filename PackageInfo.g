@@ -7,7 +7,8 @@ SetPackageInfo( rec(
 PackageName := "EDIM",
 Version := "1.3.3.dev",
 ##  dd/mm/yyyy 
-Date := "02/02/2018",
+Date := "02/02/2018", # dd/mm/yyyy format
+License := "GPL-2.0-or-later",
 Subtitle := "Elementary Divisors of Integer Matrices",
 # without extension
 ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/EDIM-1.3.3",
