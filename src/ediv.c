@@ -202,6 +202,7 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   if (A1[0]==rk) { 
     RetypeBag(resobj, T_PLIST);
     i0 = res[0];
+    SET_LEN_PLIST(resobj, i0);
     for (i=1; i<=i0; i++) {
       SET_ELM_PLIST(resobj, i, INTOBJ_INT(res[i]));
     }
