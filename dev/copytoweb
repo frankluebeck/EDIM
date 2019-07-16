@@ -21,7 +21,7 @@ mkdir -p $WEBDIR
 
 echo producing HTML-version of manual with external links to GAP site . . .
 rm -f tttttmppre
-echo 'pathtoroot := "http://www.gap-system.org/Manuals";' >  tttttmppre
+echo 'pathtoroot := "https://www.gap-system.org/Manuals";' >  tttttmppre
 gap -r  tttttmppre < makedocrel.g > /dev/null
 
 echo copying archives . . .
