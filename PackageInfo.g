@@ -5,7 +5,7 @@
 SetPackageInfo( rec(
 
 PackageName := "EDIM",
-Version := "1.3.4",
+Version := "1.3.4.dev",
 ##  dd/mm/yyyy 
 Date := "16/07/2019",
 License := "GPL-2.0-or-later",
