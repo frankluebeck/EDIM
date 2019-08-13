@@ -38,7 +38,7 @@ rm -f PackageInfo.g
 mv xxx PackageInfo.g
 
 # ArchiveURL in PackageInfo.g
-sed -e "s/edim-.*/edim-"$VERSION"\",/" < PackageInfo.g > xxx
+sed -e "s/EDIM-.*/EDIM-"$VERSION"\",/" < PackageInfo.g > xxx
 rm -f PackageInfo.g
 mv xxx PackageInfo.g
 
@@ -62,9 +62,4 @@ mv xxx1 dev/index.html
 sed -e "s|Last modified:.*|Last modified: `date`|" < dev/index.html > xxx
 rm -f dev/index.html
 mv xxx dev/index.html
-
-
-
-
-
 
