@@ -1,3 +1,5 @@
+1.3.5 - corrected wrong link in PackageInfo.g
+
 1.3.4 - small adjustment in kernel function to make it work with future
         GAP > 4.10.2
       - cleaned up various places in documentation, scripts, PackageInfo.g
