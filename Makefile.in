@@ -2,10 +2,6 @@
 
 GAPPATH=@GAPPATH@
 
-GAPINCL=-I$(GAPPATH)/src -I$(GAPPATH)/bin/@GAPARCH@/src
-
-PKGROOT=$(shell pwd)
-
 GAP=$(GAPPATH)/bin/gap.sh
 
 GAC=$(GAPPATH)/gac
@@ -14,11 +10,8 @@ GAC=$(GAPPATH)/gac
 
 default: bin/@GAPARCH@/ediv.so 
 
-# this target creates a bin-directory
-bin/@GAPARCH@:
-	mkdir -p bin/@GAPARCH@
-
-bin/@GAPARCH@/ediv.so: src/ediv.c bin/@GAPARCH@
+bin/@GAPARCH@/ediv.so: src/ediv.c
+	@mkdir -p bin/@GAPARCH@
 	$(GAC) -d -o bin/@GAPARCH@/ediv.so src/ediv.c
 
 doc:
