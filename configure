@@ -14,8 +14,9 @@ else
 fi
 echo "Using $GAPPATH as GAP build directory."
 
-if [ ! -e "$GAPPATH/GNUmakefile" ]; then
+if [ -e "$GAPPATH/sysinfo.in" ]; then
   # GAP version < 4.9, use old configure script
+  echo "Old version (<4.9) of GAP ..."
   ./configure.old $*
   exit
 fi
