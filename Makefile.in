@@ -10,7 +10,7 @@ GAC=$(GAPPATH)/gac
 
 default: bin/@GAPARCH@/ediv.so 
 
-bin/@GAPARCH@/ediv.so: src/ediv.c
+bin/@GAPARCH@/ediv.so: src/ediv.c Makefile
 	@mkdir -p bin/@GAPARCH@
 	$(GAC) -d -o bin/@GAPARCH@/ediv.so src/ediv.c
 
@@ -28,3 +28,7 @@ docclean:
 
 test:
 	$(GAP) -b -q -r < tst/test.g
+
+# regenerate Makefile if any of its inputs changed
+Makefile: configure Makefile.in $(GAPPATH)/sysinfo.gap
+	./configure @GAPPATH@
