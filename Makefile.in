@@ -6,9 +6,7 @@ GAP=@GAP@
 
 GAC=@GAC@
 
-.PHONY: clean doc test
-
-default: bin/@GAPARCH@/ediv.so 
+.PHONY: doc clean distclean docclean test
 
 bin/@GAPARCH@/ediv.so: src/ediv.c Makefile
 	@mkdir -p bin/@GAPARCH@
