@@ -6,9 +6,7 @@ GAP=$(GAPPATH)/bin/gap.sh
 
 GAC=$(GAPPATH)/gac
 
-.PHONY: clean doc test
-
-default: bin/@GAPARCH@/ediv.so 
+.PHONY: clean doc test distclean docclean
 
 bin/@GAPARCH@/ediv.so: src/ediv.c
 	@mkdir -p bin/@GAPARCH@
