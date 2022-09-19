@@ -2,9 +2,9 @@
 
 GAPPATH=@GAPPATH@
 
-GAP=$(GAPPATH)/bin/gap.sh
+GAP=@GAP@
 
-GAC=$(GAPPATH)/gac
+GAC=@GAC@
 
 .PHONY: clean doc test
 

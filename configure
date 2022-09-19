@@ -21,12 +21,19 @@ if [ -e "$GAPPATH/sysinfo.in" ]; then
   exit
 fi
 
+# set default values for GAP and GAC (may be overwritten by sysinfo.gap)
+GAP='$(GAPPATH)/bin/gap.sh'
+GAC='$(GAPPATH)/gac'
+
 # Reading variables from GAP build directory
 . "$GAPPATH/sysinfo.gap"
 
 echo "Using bin path: $GAParch"
 
 # Creating Makefile
-sed -e "s|@GAPPATH@|$GAPPATH|g" -e "s|@GAPARCH@|$GAParch|g" \
+sed -e "s|@GAPPATH@|$GAPPATH|g" \
+    -e "s|@GAPARCH@|$GAParch|g" \
+    -e "s|@GAP@|$GAP|g" \
+    -e "s|@GAC@|$GAC|g" \
              < Makefile.in > Makefile
 
