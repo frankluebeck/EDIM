@@ -12,7 +12,7 @@
 ##  Matrices,  to appear in Journal of Symbolic Computation.
 ##  
 ##  A preprint version is available from
-##  http://www.math.rwth-aachen.de/~Frank.Luebeck/preprints/preprints_en.html
+##  https://www.math.rwth-aachen.de/~Frank.Luebeck/preprints/preprints_en.html
 ##  
   
 ###########################################################################

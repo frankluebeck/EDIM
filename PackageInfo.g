@@ -11,7 +11,7 @@ Date := "13/08/2019",
 License := "GPL-2.0-or-later",
 Subtitle := "Elementary Divisors of Integer Matrices",
 # without extension
-ArchiveURL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/EDIM-1.3.5.dev",
+ArchiveURL := "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/EDIM-1.3.5.dev",
 ArchiveFormats := ".tar.bz2  .tar.gz   -win.zip",
 SourceRepository := rec(Type := "git", 
                         URL := "https://github.com/frankluebeck/EDIM" ),
@@ -22,7 +22,7 @@ Persons := [
   IsAuthor := true,
   IsMaintainer := true,
   Email := "Frank.Luebeck@Math.RWTH-Aachen.De",
-  WWWHome := "http://www.math.rwth-aachen.de/~Frank.Luebeck",
+  WWWHome := "https://www.math.rwth-aachen.de/~Frank.Luebeck",
   PostalAddress := "Dr. Frank Lübeck\nLehrstuhl D für Mathematik\nRWTH Aachen\nTemplergraben 64\n52062 Aachen\nGERMANY\n",
   Place := "Aachen",
   Institution := "Lehrstuhl D für Mathematik, RWTH Aachen"
@@ -32,13 +32,13 @@ Status := "accepted",
 CommunicatedBy := "Mike Atkinson (St Andrews)",
 # mm/yyyy
 AcceptDate := "08/1999",
-README_URL := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/README",
+README_URL := "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/README",
 PackageInfoURL := 
-           "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/PackageInfo.g",
+           "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/PackageInfo.g",
 AbstractHTML := "This package provides  a collection of functions for \
 computing the Smith normal form of integer matrices and some related \
 utilities.",
-PackageWWWHome := "http://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM",
+PackageWWWHome := "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM",
 PackageDoc := rec(
   BookName := "EDIM",
   ArchiveURLSubset := ["doc"],
