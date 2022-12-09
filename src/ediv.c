@@ -217,28 +217,16 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   return resobj;
 }
 
-/*F * * * * * * * * * * * * * initialize package * * * * * * * * * * * * * * *
+
+/****************************************************************************
+**
+*F * * * * * * * * * * * * * initialize package * * * * * * * * * * * * * * *
 */
 
 
 
 /****************************************************************************
 **
-
-*V  GVarFilts . . . . . . . . . . . . . . . . . . . list of filters to export
-*/
-/*static StructGVarFilt GVarFilts [] = {
-
-    { "IS_BOOL", "obj", &IsBoolFilt,
-      IsBoolHandler, "src/bool.c:IS_BOOL" },
-
-    { 0 }
-
-};   ?????*/
-
-/****************************************************************************
-**
-
 *V  GVarFuncs . . . . . . . . . . . . . . . . . . list of functions to export
 */
 static StructGVarFunc GVarFuncs [] = {
@@ -253,8 +241,8 @@ static StructGVarFunc GVarFuncs [] = {
 
 
 
-/**************************************************************************
-
+/****************************************************************************
+**
 *F  InitKernel( <module> )  . . . . . . . . initialise kernel data structures
 */
 static Int InitKernel (
@@ -276,8 +264,6 @@ static Int InitKernel (
 static Int InitLibrary (
     StructInitInfo *    module )
 {
-  /*    UInt            gvar;
-	Obj             tmp; */
 
     /* init filters and functions                                          */
     /* printf("Init El..Small\n");fflush(stdout); */
