@@ -12,7 +12,7 @@
 
 /* read GAP source header files with a combined header file */
 
-#include        "src/compiled.h"          /* GAP headers                */
+#include        "compiled.h"          /* GAP headers                */
 
 
 #include        <stdio.h>

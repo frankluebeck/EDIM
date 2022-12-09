@@ -1,5 +1,5 @@
 /* made by 'gac', can be thrown away */
-#include "src/compiled.h" 
+#include "compiled.h" 
 #ifndef AVOID_PRECOMPILED
 extern StructInitInfo * Init__methsel1 ( void );
 extern StructInitInfo * Init__type1 ( void );
