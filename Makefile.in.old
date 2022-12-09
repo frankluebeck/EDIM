@@ -24,7 +24,7 @@ doc:
 	($(GAP)  makedocrel.g)
 
 clean: 
-	rm -rf bin/@GAPARCH@ Makefile Makefile-$(CONFIGNAME) *~
+	rm -rf bin/@GAPARCH@ *~
 
 distclean:
 	rm -rf bin Makefile Makefile-*
