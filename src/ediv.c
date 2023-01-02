@@ -217,28 +217,9 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
   return resobj;
 }
 
-/*F * * * * * * * * * * * * * initialize package * * * * * * * * * * * * * * *
-*/
-
-
+/*F * * * * * * * * * * * * * initialize package * * * * * * * * * * * * * */
 
 /****************************************************************************
-**
-
-*V  GVarFilts . . . . . . . . . . . . . . . . . . . list of filters to export
-*/
-/*static StructGVarFilt GVarFilts [] = {
-
-    { "IS_BOOL", "obj", &IsBoolFilt,
-      IsBoolHandler, "src/bool.c:IS_BOOL" },
-
-    { 0 }
-
-};   ?????*/
-
-/****************************************************************************
-**
-
 *V  GVarFuncs . . . . . . . . . . . . . . . . . . list of functions to export
 */
 static StructGVarFunc GVarFuncs [] = {
@@ -251,10 +232,7 @@ static StructGVarFunc GVarFuncs [] = {
 
 };
 
-
-
-/**************************************************************************
-
+/****************************************************************************
 *F  InitKernel( <module> )  . . . . . . . . initialise kernel data structures
 */
 static Int InitKernel (
@@ -270,17 +248,13 @@ static Int InitKernel (
 
 
 /****************************************************************************
-**
 *F  InitLibrary( <module> ) . . . . . . .  initialise library data structures
 */
 static Int InitLibrary (
     StructInitInfo *    module )
 {
-  /*    UInt            gvar;
-	Obj             tmp; */
-
     /* init filters and functions                                          */
-    /* printf("Init El..Small\n");fflush(stdout); */
+    /* printf("Init El..Small\n");fflush(stdout);                          */
     InitGVarFuncsFromTable( GVarFuncs );
 
     /* return success                                                      */
@@ -292,7 +266,7 @@ static Int InitLibrary (
 **
 *F  InitInfopl()  . . . . . . . . . . . . . . . . . table of init functions
 */
-/* <name> returns the description of this module */
+/* <name> returns the description of this module                           */
 static StructInitInfo module = {
 #ifdef EDIVSTATIC
     .type = MODULE_STATIC,
