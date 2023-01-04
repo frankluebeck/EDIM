@@ -2,21 +2,23 @@
 
 GAPPATH=@GAPPATH@
 
-GAP=@GAP@
+# set default values for GAP and GAC (may be overwritten by sysinfo.gap)
+GAC=$(GAPPATH)/gac
+GAP=$(GAPPATH)/bin/gap.sh
 
-GAC=@GAC@
+include $(GAPPATH)/sysinfo.gap
 
 .PHONY: doc clean distclean docclean test
 
-bin/@GAPARCH@/ediv.so: src/ediv.c Makefile
-	@mkdir -p bin/@GAPARCH@
-	$(GAC) -d -o bin/@GAPARCH@/ediv.so src/ediv.c
+bin/$GAParch/ediv.so: src/ediv.c Makefile
+	@mkdir -p bin/$GAParch
+	$(GAC) -d -o bin/$GAParch/ediv.so src/ediv.c
 
 doc:
 	$(GAP)  makedocrel.g
 
 clean: 
-	rm -rf bin/@GAPARCH@ Makefile *~
+	rm -rf bin/$GAParch Makefile *~
 
 distclean:
 	rm -rf bin Makefile Makefile-*
@@ -29,4 +31,4 @@ test:
 
 # regenerate Makefile if any of its inputs changed
 Makefile: configure Makefile.in $(GAPPATH)/sysinfo.gap
-	./configure @GAPPATH@
+	./configure $(GAPPATH)
