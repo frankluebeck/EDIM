@@ -1,3 +1,7 @@
+1.3.7 - `configure` now additionally supports argument `--with-gaproot=...`
+      - Changed `make clean` to not remove `Makefile` (for compatibility with
+        other package setups), old behaviour with `make cleanlast`
+
 1.3.6 - some improvements in `configure` and `Makefile`
       - updated URLs
 

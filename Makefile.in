@@ -15,11 +15,15 @@ bin/@GAPARCH@/ediv.so: src/ediv.c Makefile
 doc:
 	$(GAP)  makedocrel.g
 
-clean: 
+# for compatibility with other packages
+clean:
+	rm -rf bin/@GAPARCH@ *~
+# clean last build
+cleanlast:
 	rm -rf bin/@GAPARCH@ Makefile *~
-
+# clean all builds
 distclean:
-	rm -rf bin Makefile Makefile-*
+	rm -rf bin/* Makefile Makefile-*
 
 docclean:
 	(cd  doc; ./clean)
