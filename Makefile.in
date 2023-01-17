@@ -1,26 +1,24 @@
-# makefile prototype for the EDIM package (assuming GAP >= 4.9) Frank Lübeck
+# makefile prototype for the EDIM package (assuming GAP >= 4.12) Frank Lübeck
 
+# GAPPATH is found in `configure`, GAParch, GAP and GAC are set in sysinfo.gap
 GAPPATH=@GAPPATH@
+include $(GAPPATH)/sysinfo.gap
 
-GAP=@GAP@
+.PHONY: doc clean cleanlast distclean docclean test
 
-GAC=@GAC@
-
-.PHONY: doc clean distclean docclean test
-
-bin/@GAPARCH@/ediv.so: src/ediv.c Makefile
-	@mkdir -p bin/@GAPARCH@
-	$(GAC) -d -o bin/@GAPARCH@/ediv.so src/ediv.c
+bin/$(GAParch)/ediv.so: src/ediv.c Makefile
+	@mkdir -p bin/$(GAParch)
+	$(GAC) -d -o bin/$(GAParch)/ediv.so src/ediv.c
 
 doc:
 	$(GAP)  makedocrel.g
 
 # for compatibility with other packages
 clean:
-	rm -rf bin/@GAPARCH@ *~
+	rm -rf bin/$(GAParch) *~
 # clean last build
 cleanlast:
-	rm -rf bin/@GAPARCH@ Makefile *~
+	rm -rf bin/$(GAParch) Makefile *~
 # clean all builds
 distclean:
 	rm -rf bin/* Makefile Makefile-*
@@ -33,4 +31,4 @@ test:
 
 # regenerate Makefile if any of its inputs changed
 Makefile: configure Makefile.in $(GAPPATH)/sysinfo.gap
-	./configure @GAPPATH@
+	./configure $(GAPPATH)
