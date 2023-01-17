@@ -30,14 +30,7 @@ DeclareGlobalFunction("ElementaryDivisorsSquareIntMatFullRank");
 DeclareGlobalFunction("ElementaryDivisorsIntMatDeterminant");
 DeclareGlobalFunction("ElementaryDivisorsPPartHavasSterling");
 
-# load kernel function if it is installed 
 if (not IsBound(ElementaryDivisorsPPartRkExpSmall)) and 
-   ("ediv" in SHOW_STAT()) then
-  # try static module
-  LoadStaticModule("ediv");
+        IsKernelExtensionAvailable("EDIM","ediv") then
+  LoadKernelExtension("EDIM", "ediv");
 fi;
-if (not IsBound(ElementaryDivisorsPPartRkExpSmall)) and 
-   (Filename(DirectoriesPackagePrograms("edim"), "ediv.so") <> fail) then
-  LoadDynamicModule(Filename(DirectoriesPackagePrograms("edim"), "ediv.so"));
-fi;
-
