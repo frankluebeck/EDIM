@@ -57,8 +57,7 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := function()
-  if not "ediv" in SHOW_STAT() and 
-     Filename(DirectoriesPackagePrograms("edim"), "ediv.so") = fail then
+  if not IsKernelExtensionAvailable("EDIM","ediv") then
     LogPackageLoadingMessage( PACKAGE_WARNING,
               [ "The EDIM kernel function 'ElementaryDivisorsPPartRkExpSmall'",
                 "is not available.",
