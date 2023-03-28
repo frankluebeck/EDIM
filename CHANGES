@@ -1,6 +1,10 @@
 1.3.7 - `configure` now additionally supports argument `--with-gaproot=...`
-      - Changed `make clean` to not remove `Makefile` (for compatibility with
+      - changed `make clean` to not remove `Makefile` (for compatibility with
         other package setups), old behaviour with `make cleanlast`
+      - simplified availability check of kernel module using
+        'IsKernelExtensionAvailable'
+      - removed support for GAP < 4.12 (full functionality is available
+        with previous versions of EDIM)
 
 1.3.6 - some improvements in `configure` and `Makefile`
       - updated URLs

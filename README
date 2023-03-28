@@ -15,6 +15,9 @@ Do this preferably (but not necessarily) inside the `pkg' subdirectory
 of your  GAP   4   installation. It  creates a    subdirectory  called
 'EDIM-x.y.z'. 
 
+For more robust cross referencing between manuals the installation directory
+should be renamed to 'edim'.
+
 To install this package do
 
     cd EDIM-*
@@ -22,11 +25,6 @@ To install this package do
 
 where  `path' is a path to  the GAP build  directory (if not given
 the default `../..' is assumed).
-
-In version of GAP <4.9 a further argument
-      CONFIGNAME=...
-can be used to describe the configuration name of GAP for which you want 
-to compile (if not given "default64" or "default32" are used).
 
 Afterwards call `make'  to  compile  a binary file. 
  

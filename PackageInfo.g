@@ -7,7 +7,7 @@ SetPackageInfo( rec(
 PackageName := "EDIM",
 Version := "1.3.6.dev",
 ##  dd/mm/yyyy 
-Date := "23/09/2022",
+Date := "28/03/2023",
 License := "GPL-2.0-or-later",
 Subtitle := "Elementary Divisors of Integer Matrices",
 # without extension
@@ -49,16 +49,15 @@ PackageDoc := rec(
   Autoload := true
 ),
 Dependencies := rec(
-  GAP := "4.5",
-  NeededOtherPackages := [["GAPDoc", ">= 1.5"]],
+  GAP := "4.12",
+  NeededOtherPackages := [["GAPDoc", ">= 1.6"]],
   SuggestedOtherPackages := [],
   ExternalConditions := 
         ["UNIX for the kernel function 'ElementaryDivisorsPPartRkExpSmall'"]
 ),
 
 AvailabilityTest := function()
-  if not "ediv" in SHOW_STAT() and 
-     Filename(DirectoriesPackagePrograms("edim"), "ediv.so") = fail then
+  if not IsKernelExtensionAvailable("EDIM","ediv") then
     LogPackageLoadingMessage( PACKAGE_WARNING,
               [ "The EDIM kernel function 'ElementaryDivisorsPPartRkExpSmall'",
                 "is not available.",
