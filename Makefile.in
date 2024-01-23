@@ -8,7 +8,7 @@ include $(GAPPATH)/sysinfo.gap
 
 bin/$(GAParch)/ediv.so: src/ediv.c Makefile
 	@mkdir -p bin/$(GAParch)
-	$(GAC) -d -o bin/$(GAParch)/ediv.so src/ediv.c
+	$(GAC) -d -p "$(CPPFLAGS)" -p "$(CFLAGS)" -P "$(LDFLAGS)" -o bin/$(GAParch)/ediv.so src/ediv.c
 
 doc:
 	$(GAP)  makedocrel.g
