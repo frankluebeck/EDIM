@@ -5,13 +5,13 @@
 SetPackageInfo( rec(
 
 PackageName := "EDIM",
-Version := "1.3.7.dev",
+Version := "1.3.8",
 ##  dd/mm/yyyy 
 Date := "21/02/2024",
 License := "GPL-2.0-or-later",
 Subtitle := "Elementary Divisors of Integer Matrices",
 # without extension
-ArchiveURL := "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/EDIM-1.3.7",
+ArchiveURL := "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/EDIM-1.3.8",
 ArchiveFormats := ".tar.bz2  .tar.gz   -win.zip",
 SourceRepository := rec(Type := "git", 
                         URL := "https://github.com/frankluebeck/EDIM" ),
