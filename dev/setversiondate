@@ -54,9 +54,8 @@ mv xxx dev/index.html
 
 # Archive names in dev/index.html
 sed -e "s|EDIM-[0-9\.]*|EDIM-$VERSION\.|g" < dev/index.html > xxx
-sed -e "s|.-win.zip|-win.zip|g" < xxx > xxx1
-rm -f xxx dev/index.html
-mv xxx1 dev/index.html
+rm -f dev/index.html
+mv xxx dev/index.html
 
 # "Last modified" in dev/index.html
 sed -e "s|Last modified:.*|Last modified: `date`|" < dev/index.html > xxx

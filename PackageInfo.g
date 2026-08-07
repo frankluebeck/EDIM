@@ -12,7 +12,7 @@ License := "GPL-2.0-or-later",
 Subtitle := "Elementary Divisors of Integer Matrices",
 # without extension
 ArchiveURL := "https://www.math.rwth-aachen.de/~Frank.Luebeck/EDIM/EDIM-1.3.8",
-ArchiveFormats := ".tar.bz2  .tar.gz   -win.zip",
+ArchiveFormats := ".tar.bz2  .tar.gz",
 SourceRepository := rec(Type := "git", 
                         URL := "https://github.com/frankluebeck/EDIM" ),
 Persons := [

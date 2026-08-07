@@ -30,6 +30,7 @@ rm -rf buildtmp
 
 echo "If content with the archive $DIRNAM.tar.gz use"
 echo "            repack.py $DIRNAM.tar.gz"
+echo "            rm -f $DIRNAM-win.zip
 echo "to produce the other archive formats."
 echo 
 echo "Then check dev/index.html and use"
