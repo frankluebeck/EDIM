@@ -21,9 +21,9 @@
 /*          the functions         */
 
 /* a helper function for computing k^-1 mod p */
-long invmodpcint(long k, long p)
+Int invmodpcint(Int k, Int p)
 {
-  long f, g, h, fk, gk, hk, q;
+  Int f, g, h, fk, gk, hk, q;
   if (0 <= k) {
     f = k;
     fk = 1;
@@ -58,9 +58,9 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
 					 Obj robj,
 					 Obj ilobj) /* info level */
 {
-  unsigned long m, n, nn, r, rk, ch, chmax, p, pr, i, j, 
+  UInt m, n, nn, r, rk, ch, chmax, p, pr, i, j, 
                 ii, i0, i1, x, c, pos, il;
-  unsigned long *A1, *A2, *Tp, *res, *inv, *vv;
+  UInt *A1, *A2, *Tp, *res, *inv, *vv;
   Obj A1obj, A2obj, Tpobj, resobj, invobj, probj, obj, row;
 
   /*  change args  */
@@ -68,40 +68,40 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
       ! (IS_PLIST(A) || IS_POSOBJ(ELM_PLIST(A, 1)))) {
      ErrorQuit("A must be an integer matrix",0L,0L); 
   }
-  m = (unsigned long) LEN_PLIST(A);
-  n = (unsigned long) LEN_PLIST(ELM_PLIST(A, 1));
+  m = (UInt) LEN_PLIST(A);
+  n = (UInt) LEN_PLIST(ELM_PLIST(A, 1));
   if (! IS_INTOBJ(pobj)) { 
      ErrorQuit("p must be a small integer (not a %s)",(Int)TNAM_OBJ(pobj),0L); 
   }
-  p = (unsigned long) INT_INTOBJ(pobj);
+  p = (UInt) INT_INTOBJ(pobj);
   if (! IS_INTOBJ(rkobj)) { 
      ErrorQuit("rk must be a small integer (not a %s)",(Int)TNAM_OBJ(rkobj),0L);
   }
-  rk = (unsigned long) INT_INTOBJ(rkobj);
+  rk = (UInt) INT_INTOBJ(rkobj);
   if (! IS_INTOBJ(robj)) { 
      ErrorQuit("r must be a small integer (not a %s)",(Int)TNAM_OBJ(robj),0L);
   }
-  r = (unsigned long) INT_INTOBJ(robj);
+  r = (UInt) INT_INTOBJ(robj);
   if (! IS_INTOBJ(ilobj)) { 
      ErrorQuit("il must be a small integer (not a %s)",(Int)TNAM_OBJ(ilobj),0L);
   }
-  il = (unsigned long) INT_INTOBJ(ilobj);
+  il = (UInt) INT_INTOBJ(ilobj);
 
   /* pr = p^(r+1) */
   probj = PowInt(pobj, SumInt(robj, INTOBJ_INT(1)));
   if (! IS_INTOBJ(probj)) { 
      ErrorQuit("exponent too large, see ?ElementaryDivisorsPPartRkExpSmall",0L,0L);
   }
-  /* p^(r+1)-1 must fit at least (p-1) times into an unsigned long */
-  pr = (unsigned long) INT_INTOBJ(probj);
-  if (ULONG_MAX/(pr-1) < (p-1)) {
+  /* p^(r+1)-1 must fit at least (p-1) times into an UInt */
+  pr = (UInt) INT_INTOBJ(probj);
+  if (((UInt)-1)/(pr-1) < (p-1)) {
      ErrorQuit("exponent too large, see ?ElementaryDivisorsPPartRkExpSmall",0L,0L);
   }
   /* max sum of coeffs of numbers of size (p^(r+1)-1) before reduction is 
      necessary to avoid integer overflow */
-  chmax = ULONG_MAX/(pr-1)-1;
-  A2obj = NewBag(T_DATOBJ, (n+1)*(m+1)*sizeof(unsigned long));
-  A2 = (unsigned long *)ADDR_OBJ(A2obj);
+  chmax = ((UInt)-1)/(pr-1)-1;
+  A2obj = NewBag(T_DATOBJ, (n+1)*(m+1)*sizeof(UInt));
+  A2 = (UInt *)ADDR_OBJ(A2obj);
   A2[0] = m;
   nn = n+1;
   /* reduce matrix entries modulo p^(r+1) */
@@ -119,28 +119,28 @@ Obj FuncElementaryDivisorsPPartRkExpSmall(
       if (LtInt(probj, obj) || LtInt(obj, INTOBJ_INT(0))) {
 	obj = ModInt(obj, probj);
         /* this could have changed because of a garbage collection */
-	A2 = (unsigned long *)ADDR_OBJ(A2obj);
-	A2[i*nn+j] = (unsigned long) INT_INTOBJ(obj);
+	A2 = (UInt *)ADDR_OBJ(A2obj);
+	A2[i*nn+j] = (UInt) INT_INTOBJ(obj);
       }
       else {
-	A2 = (unsigned long *)ADDR_OBJ(A2obj);
-	A2[i*nn+j] = (unsigned long) INT_INTOBJ(obj);
+	A2 = (UInt *)ADDR_OBJ(A2obj);
+	A2[i*nn+j] = (UInt) INT_INTOBJ(obj);
       }
     }
   }
 
   /* allocating space for local variables */
-  A1obj = NewBag(T_DATOBJ, (n+1)*(m+1)*sizeof(unsigned long));
-  invobj = NewBag(T_DATOBJ, (n+1)*sizeof(unsigned long));
-  resobj = NewBag(T_DATOBJ, (r+2)*sizeof(unsigned long));
-  Tpobj = NewBag(T_DATOBJ, (n+1)*sizeof(unsigned long));
-  A1 = (unsigned long *)ADDR_OBJ(A1obj);
+  A1obj = NewBag(T_DATOBJ, (n+1)*(m+1)*sizeof(UInt));
+  invobj = NewBag(T_DATOBJ, (n+1)*sizeof(UInt));
+  resobj = NewBag(T_DATOBJ, (r+2)*sizeof(UInt));
+  Tpobj = NewBag(T_DATOBJ, (n+1)*sizeof(UInt));
+  A1 = (UInt *)ADDR_OBJ(A1obj);
   A1[0] = 0UL;
-  res = (unsigned long *)ADDR_OBJ(resobj);
+  res = (UInt *)ADDR_OBJ(resobj);
   res[0] = 0UL;
-  inv = (unsigned long *)ADDR_OBJ(invobj);
-  Tp = (unsigned long *)ADDR_OBJ(Tpobj);
-  A2 = (unsigned long *)ADDR_OBJ(A2obj);
+  inv = (UInt *)ADDR_OBJ(invobj);
+  Tp = (UInt *)ADDR_OBJ(Tpobj);
+  A2 = (UInt *)ADDR_OBJ(A2obj);
 
   /* from now on the pointers above are safe: we only  manipulate  the data
      in the allocated bags and don't use any GAP function which could cause
